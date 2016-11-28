@@ -9,22 +9,26 @@
   <form method="post">
     <div class ="col-md-4 col-md-offset-4" >
     <div class="form-group">
-      <label for="username" class="col-sm-2 control-label">Username: *</label>
+      <label for="username" class="col-sm-2 control-label">Username: </label>
       <input name="username" id="username" required />
     </div>
     <div class="form-group">
-      <label for="password" class="col-sm-2 control-label">Password: *</label>
+      <label for="password" class="col-sm-2 control-label">Password: </label>
       <input name="password" id="password" type="password" required />
     </div>
     </div>
-<div>
-    <button class="btn btn-success col-sm-offset-2">Login</button>
+      <!-- keep it all centered -->
+<div class="container col-md-4 col-md-offset-4">
+    <button class="btn btn-success center_div" >Login</button>
+    <div>
     <a href="/facebook">
       <img src="/images/facebook.png" alt="Log in with Facebook" />
     </a>
     <a href="/github">
       <img src="/images/github.png" alt="Log in with GitHub" />
     </a>
+    </div>
+
     Need access?  <a href="/register" title="Register">Register</a>
 </div>
   </form>

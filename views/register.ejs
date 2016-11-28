@@ -1,8 +1,12 @@
 <% include partials/header.ejs %>
+<!-- standard login with a displayname added -->
+
+
 
 
 <main class="container">
     <h1>Register</h1>
+    <% include partials/errorMessages.ejs %>
     <div class = "jumbotron">
     <form method="post">
         <div class="form-group">
@@ -23,7 +27,6 @@
         </div>
         <div class="form-group">
             <button class="btn btn-success col-sm-offset-2">Register</button>
-            <hr />
             Already have an account?  <a href="/login" title="Login">Login</a>
         </div>
     </form>

@@ -6,8 +6,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 //requied packages for login and db communication.
+
 var mongoose = require('mongoose');
 var config = require('./config/globalVars');
+
+//mongoose.Promise = global.Promise;
 mongoose.connect(config.db);
 
 // include passport packages, and all that terrible terrible shit that needs to be
@@ -16,6 +19,7 @@ var passport = require('passport');
 var session = require('express-session');
 var flash = require('connect-flash');
 var localStrategy = require('passport-local').Strategy;
+
 
 //sub page setup and requirements for the 4 pages where a switch has to happen to work properally
 //as if I declare the scope of angular here, they won't work properally and the NG-controller
@@ -27,18 +31,38 @@ var register = require ('./routes/register');
 
 var app = express();
 
+app.use(flash());
+//app.use('/login', login);
+//app.use('/register', register); removed
+
+app.use(session({
+  secret: config.secret,
+  resave: true,
+  saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+var Account = require('./models/account');
+passport.use(Account.createStrategy());
+
+
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
+
+// link to the Account model we're going to build
+
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 
 
-
-
-
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+//fav icon removed due to it just being a complete pain in the anus.
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -50,6 +74,9 @@ app.use('/index', index);
 app.use('/users', users);
 app.use('/login', login);
 app.use('/register', register);
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -68,6 +95,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 module.exports = app;
 
