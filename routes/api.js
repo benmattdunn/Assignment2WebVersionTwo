@@ -1,5 +1,7 @@
 /*
- * Serve JSON to our AngularJS client
+
+just for cecking and finding out information, orginally from
+
  */
 
 // For a real app, you'd make database requests here.
