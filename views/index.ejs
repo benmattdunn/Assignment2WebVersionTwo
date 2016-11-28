@@ -1,0 +1,20 @@
+<% include partials/header.ejs%>
+
+<!-- content is generated here using injection from individual routers
+ for each page giving a half dynamic, half parsed page layout.
+ -->
+<div ng-app="routerApp">
+
+  <!-- view control for the injection -->
+  <div class="container">
+    <div ui-view></div>
+  </div>
+  <div>
+    I reached.
+  </div>
+
+</div>
+
+
+
+<% include partials/footer.ejs %>

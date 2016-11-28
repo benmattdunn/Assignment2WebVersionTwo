@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> place holder </title>
+
+  <!--css -->
+  <!-- <link rel="stylesheet" href="/node_modules/angular-material/angular-material.min.css"> -->
+  <link type="text/css" rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+  <!-- JS (load angular, ui-router, and our custom js file for controlling views -->
+
+
+  <link type="text/css" rel="stylesheet"
+        href="/stylesheets/bootstrap-theme.min.css" />
+
+  <!-- router link for page control -->
+  <script src="/routes/angularRouter.js"></script>
+
+
+  <base href="/" /> <!-- add the deep rendering path for use of angular and express routing -->
+</head>
+<!-- because this project doesn't have alot in, i've kept it on a single router -->
+<body>
+
+
+<nav class="navbar navbar-inverse" role="navigation">
+  <div class="navbar-header">
+    <a class="navbar-brand"  ng-click="" >Barrie Business Listing</a>
+  </div>
+
+<ul class="nav navbar-nav">
+  <li><a href="/">Home</a></li>
+  <li><a href="#">View Businesses</a></li>
+
+
+  <li><a href="/login">Login</a> </li>
+
+</ul>
+</nav>
+
+
+<!-- default header with minimumn information -->
+<!-- because injection is not mointering this point, it should work nicely -->
