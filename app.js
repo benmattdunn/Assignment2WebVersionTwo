@@ -5,36 +5,39 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-//requied packages for login and db communication.
+var routes = require('./routes/index');
+var users = require('./routes/users');
 
+//custom code
+
+var login = require('./routes/login');
+var register = require('./routes/register');
+var addbusiness = require('./routes/addbussiness');
+var logout = require('./routes/logout');
+
+
+
+var userCrudDisplay = require('./routes/userCrudDisplay');
+var userpage = require('./routes/userpage');
+
+
+
+
+var app = express();
+
+// use mongoose to connect to mongodb
 var mongoose = require('mongoose');
 var config = require('./config/globalVars');
-
-//mongoose.Promise = global.Promise;
 mongoose.connect(config.db);
 
-// include passport packages, and all that terrible terrible shit that needs to be
-// done for adding an account.
+// include passport packages
 var passport = require('passport');
 var session = require('express-session');
 var flash = require('connect-flash');
 var localStrategy = require('passport-local').Strategy;
 
-
-//sub page setup and requirements for the 4 pages where a switch has to happen to work properally
-//as if I declare the scope of angular here, they won't work properally and the NG-controller
-// interfears with express' data base connect and intterupts gets/post calls.
-var index = require('./routes/index');
-var users = require('./routes/users');
-var login = require('./routes/login');
-var register = require ('./routes/register');
-var logout = require ('./routes/logout');
-
-var app = express();
-
+// initialize the passport packages for authentication
 app.use(flash());
-//app.use('/login', login);
-//app.use('/register', register); removed
 
 app.use(session({
   secret: config.secret,
@@ -45,37 +48,119 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-
+// link to the Account model we're going to build
 var Account = require('./models/account');
 passport.use(Account.createStrategy());
 
+// configure facebook login
+var facebookStrategy = require('passport-facebook').Strategy;
 
+/*
+passport.use(new facebookStrategy({
+      clientID: config.ids.facebook.clientID,
+      clientSecret: config.ids.facebook.clientSecret,
+      callbackURL: config.ids.facebook.callbackURL
+    }, function(accessToken, refreshToken, profile, cb) {
+      // what to do when fb returns a profile
+      // check if this fb profile is already in our accounts collection
+      Account.findOne({ oauthID: profile.id }, function(err, user) {
+        if (err) {
+          console.log(err);
+        }
+        else {
+          // if the user already exists, continue
+          if (user !== null) {
+            cb(null, user);
+          }
+          else {
+            // valid fb user but not in mongodb yet.  Add the user.
+            user = new Account({
+              oauthID: profile.id,
+              username: profile.displayName,
+              created: Date.now()
+            });
+
+            user.save(function(err) {
+              if (err) {
+                console.log(err);
+              }
+              else {
+                cb(null, user);
+              }
+            });
+          }
+        }
+      });
+    }
+));
+
+// configure github login
+var githubStrategy = require('passport-github').Strategy;
+
+passport.use(new githubStrategy({
+      clientID: config.ids.github.clientID,
+      clientSecret: config.ids.github.clientSecret,
+      callbackURL: config.ids.github.callbackURL
+    }, function(accessToken, refreshToken, profile, cb) {
+      // what to do when gh returns a profile
+      // check if this gh profile is already in our accounts collection
+      Account.findOne({ oauthID: profile.id }, function(err, user) {
+        if (err) {
+          console.log(err);
+        }
+        else {
+          // if the user already exists, continue
+          if (user !== null) {
+            cb(null, user);
+          }
+          else {
+            // valid gh user but not in mongodb yet.  Add the user.
+            user = new Account({
+              oauthID: profile.id,
+              username: profile.username,
+              created: Date.now()
+            });
+
+            user.save(function(err) {
+              if (err) {
+                console.log(err);
+              }
+              else {
+                cb(null, user);
+              }
+            });
+          }
+        }
+      });
+    }
+));
+*/
+
+// read / write users between passport and mongodb
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
-
-// link to the Account model we're going to build
-
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-
-
-//fav icon removed due to it just being a complete pain in the anus.
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'node_moduels')));
 
-app.use('/', index); //I know this is double booking, but I like it this way
-app.use('/index', index);
-app.use('/users', users);
+app.use('/', routes);
+app.use('/index', routes);
 app.use('/login', login);
 app.use('/register', register);
+app.use('/addbusiness', addbusiness);
+app.use('/userpage', userpage);
 app.use('/logout', logout);
+app.use('/userCrudDisplay',userCrudDisplay);
 
 
 
@@ -87,88 +172,29 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// error handlers
 
-  // render the error page
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
+    });
+  });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
 });
 
 
-
-
-
-
 module.exports = app;
-
-//register and login information
-
-
-
-
-
-/*
-experimental legecy code for getting angular and express to boot together,
-however as is typical with web 'the castle has already been abondoned',
-and this functionality no longer works in the modern versions of angular
-and express.
-
-
- var index = require('./routes/index');
-
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-
-
-
-var app = express();
-
-
-
-var index = require('./routes/index');
-var users = require('./routes/users');
-
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-
-
-
-// view engine setup
-app.use('views', path.join(__dirname, 'views'));
-app.use('view engine', 'ejs');
-
-
-// Routes
-
-app.use('/', routes.index);
-app.get('/partials/:name', routes.partials);
-
-// JSON API
-
-app.get('/api/posts', api.posts);
-
-app.get('/api/post/:id', api.post);
-app.post('/api/post', api.addPost);
-app.put('/api/post/:id', api.editPost);
-app.delete('/api/post/:id', api.deletePost);
-
-// redirect all others to the index (HTML5 history)
-app.get('*', routes.index);
-
-// Start server
-
-app.listen(3000, function(){
-  console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
-}); */

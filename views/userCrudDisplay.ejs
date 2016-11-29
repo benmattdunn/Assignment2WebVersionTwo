@@ -1,0 +1,26 @@
+<% include partials/header.ejs %>
+
+<a href="/drinks/add">Add a Drink</a>
+<table class="table table-striped">
+  <tr>
+    <th>Name</th>
+    <th>password</th>
+    <th>displayname</th>
+    <th> ID </th>
+
+
+  </tr>
+  <% for (var i=0; i < accounts.length; i++) { %>
+    <tr>
+      <td><%= accounts[i].username %></td>
+      <td><%= accounts[i].password %></td>
+      <td><%= accounts[i].displayName %></td>
+      <td><%= accounts[i]._id %></td>
+
+      <td><a href="/userCrudDisplay/delete/<%= accounts[i]._id %>" class="confirmation">Delete</a></td>
+
+
+  <% } %>
+</table>
+
+<% include partials/footer.ejs %>

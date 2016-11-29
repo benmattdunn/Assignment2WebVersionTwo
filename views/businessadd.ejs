@@ -1,0 +1,54 @@
+<% include partials/header.ejs %>
+<div>
+    <h1> Add a business</h1>
+    <p>
+        fill out the information to create a business from this page, business can be edited or destroyed
+        from the 'edit business page' in your user account drop down.
+    </p>
+
+</div>
+
+<% include partials/errorMessages.ejs %>
+
+<main class="container">
+    <div class = "jumbotron">
+        <form method="post">
+            <div class="form-group">
+                <p>Enter the name of the business </p>
+                <label for="businessname" class="col-sm-2 control-label">business name: </label>
+                <input name="businessname" id="businessname" required />
+            </div>
+            <p> Enter what you think best descriptes the business (IE: Resturant) </p>
+            <div class="form-group">
+                <label for="businesstags" class="col-sm-2 control-label">business tags: </label>
+                <input name="businesstags" id="businesstags" required />
+            </div>
+            <p> a short description of the business</p>
+            <div class="form-group">
+                <p> Bussiness description: </p>
+                <div> <!-- inline css because I need to hurry -->
+                <textarea class="form-control" style="min-width: 100%" for="businessdescription"
+                          name="businessdescription" id="businessdescription" required></textarea>
+                </div>
+
+            </div>
+
+            <p> the adress of the business</p>
+            <div class="form-group">
+                <label for="businessaddresss" class="col-sm-2 control-label">address: </label>
+                <input name="businessaddresss" id="businessaddresss" required />
+            </div>
+            <div class="form-group">
+                <button class="btn btn-success col-sm-offset-2">Create</button>
+                <a href="/" title="ADD"></a>
+            </div>
+        </form>
+    </div>
+
+</main>
+
+
+
+
+
+<% include partials/footer.ejs %>

@@ -10,6 +10,7 @@ var Account = require('../models/account');
 var localStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 var session = require('express-session');
+var Business = require('../models/business');
 
 //logout put here as it seems to make most sense as index is a general handler
 router.get('logout', function(req, res, next) {
@@ -20,18 +21,30 @@ router.get('logout', function(req, res, next) {
 
 
 
-// home page router, business are displayed here.
-router.get('/', function(req, res, next) {
-  res.render('index', {
-    user: req.user // I GET THIS, BWHAHAHA!
+router.get('/',  function(req, res, next) {
+  // use the Drink model to query the db for drink data
+  Business.find(function(err, business) {
+    if (err) {
+      console.log(err);
+      res.render('error');
+    }
+    else {
+      // load the drinks page and pass the query result
+      res.render('index', {
+
+        business: business,
+        user: req.user,
+        username: req.session.username,
+        pageName: 'Welcome to barrie Businesses'
+
+      });
+    }
   });
 });
 
 
 
 
-
-module.exports = router;
 
 
 
@@ -44,3 +57,5 @@ exports.partials = function (req, res) {
   var name = req.params.name;
   res.render('partials/' + name);
 };
+
+module.exports = router;

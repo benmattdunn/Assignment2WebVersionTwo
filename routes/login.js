@@ -19,7 +19,7 @@ var session = require('express-session');
 // prevent users from login in multiple times without logging out.
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
-        res.redirect('/index');
+        res.redirect('/');
     }
     else {
         next();
@@ -27,7 +27,7 @@ function isLoggedIn(req, res, next) {
     }
 }
 
-router.get('/', function(req, res, next) {
+router.get('/',isLoggedIn, function(req, res, next) {
 
     //var messages = req.session.messages || []; //flash.message;
 
@@ -37,16 +37,20 @@ router.get('/', function(req, res, next) {
     res.render('login', {
         //title: 'Login',
         //messages: messages,
-        user: req.user
+        user: req.user,
+
+        pageName: 'login'
     });
 });
 
 router.post('/', passport.authenticate('local', { //change
-    successRedirect: '/index',
-    failureRedirect: '/login',
+    successRedirect: '/',
+    failureRedirect: 'login',
     failureMessage: 'Invalid Login',
     failureFlash: true
 }));
+
+
 //logout requests
 router.get('/logout', function(req, res, next) {
     // log the user out and redirect

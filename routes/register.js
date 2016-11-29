@@ -22,13 +22,22 @@ var localStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 var session = require('express-session');
 
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        res.redirect('/');
 
+    }
+    else {
+        next();
+    }
+}
 
 
 // home page router, business are displayed here.
-router.get('/', function(req, res, next) {
+router.get('/',isLoggedIn, function(req, res, next) {
   res.render('register', {
-    messages: "go away meg",
+    messages: "",
+      pageName: 'Register an account to create a business page',
     user: req.user
   });
 });
@@ -39,7 +48,7 @@ passport.use(Account.createStrategy());
 //create account stuff, one of the below works...
 //I'm not sure which one, I'm scared to delete them.
 //get the post method for setting up and account
-router.post('/', function(req, res, next) {
+router.post('/',isLoggedIn, function(req, res, next) {
   // use the Account model and passort to create a new user
   Account.register(new Account(
       { username: req.body.username,
@@ -66,11 +75,12 @@ router.post('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
   // use the Account model and passort to create a new user
   Account.register(new Account(
-      { username: req.body.username,
-        displayName: req.body.DisplayName
+      {   username: req.body.username,
+          displayName: req.body.displayName,
+          password: req.body.password
       })
       ,
-      req.body.password,
+
       //user name and display name can be different.
       function(err, account) {
         if (err) {
@@ -82,6 +92,33 @@ router.post('/', function(req, res, next) {
         }
       });
 });
+
+
+
+
+/* GET /facebook */
+router.get('/facebook', passport.authenticate('facebook'), function(req, res, next) {});
+
+/* GET /facebook/callback */
+router.get('/facebook/callback', passport.authenticate('facebook', {
+    failureRedirect: '/login',
+    failureMessage: 'Invalid Login'
+}), function(req, res, next){
+    res.redirect('/drinks');
+});
+
+/* GET /github */
+router.get('/github', passport.authenticate('github'), function(req, res, next) {});
+
+/* GET /github/callback */
+router.get('/github/callback', passport.authenticate('github', {
+    failureRedirect: '/login',
+    failureMessage: 'Invalid Login'
+}), function(req, res, next){
+    res.redirect('/drinks');
+});
+
+module.exports = router;
 
 
 
