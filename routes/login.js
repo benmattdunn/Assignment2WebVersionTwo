@@ -14,8 +14,18 @@ var session = require('express-session');
 
 
 
-
 //handlers for login page requests
+
+// prevent users from login in multiple times without logging out.
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        res.redirect('/index');
+    }
+    else {
+        next();
+
+    }
+}
 
 router.get('/', function(req, res, next) {
 

@@ -27,7 +27,10 @@ var session = require('express-session');
 
 // home page router, business are displayed here.
 router.get('/', function(req, res, next) {
-  res.render('register', {messages: "go away meg"});
+  res.render('register', {
+    messages: "go away meg",
+    user: req.user
+  });
 });
 
 passport.use(Account.createStrategy());

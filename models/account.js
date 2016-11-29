@@ -8,7 +8,7 @@ var accountSchema = new mongoose.Schema({
     // empty schema is ok as passport defines username / password automatically
     //^- would of been nice to know that ahead of time XD, thank god I check friday's repository.
 
-    userName: {
+    username: {
         type: String,
         Required: 'user name is required'
     },

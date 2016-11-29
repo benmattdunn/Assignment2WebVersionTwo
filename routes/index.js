@@ -11,13 +11,24 @@ var localStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 var session = require('express-session');
 
+//logout put here as it seems to make most sense as index is a general handler
+router.get('logout', function(req, res, next) {
+  // log the user out and redirect
+  req.logout();
+  res.redirect('/login');
+});
 
 
 
 // home page router, business are displayed here.
 router.get('/', function(req, res, next) {
-  res.render('index');
+  res.render('index', {
+    user: req.user // I GET THIS, BWHAHAHA!
+  });
 });
+
+
+
 
 
 module.exports = router;

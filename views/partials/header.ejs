@@ -4,6 +4,8 @@
 <head>
   <title> place holder </title>
 
+  <!-- I have included the scripts in both the footer and the headers, check here for errors in
+   script conflicts if they come up -->
   <!--css -->
   <!-- <link rel="stylesheet" href="/node_modules/angular-material/angular-material.min.css"> -->
   <link type="text/css" rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
@@ -13,8 +15,17 @@
   <link type="text/css" rel="stylesheet"
         href="/stylesheets/bootstrap-theme.min.css" />
 
-  <!-- router link for page control -->
+  <script src ="/public/javascripts/jquery-3.1.1.min.js"></script>
+  <script src ="/public/javascripts/bootstrap.min.js"></script>
+  <!-- angular for page control -->
+  <script src="/node_modules/angular/angular.min.js"></script>
+  <script src="/node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script src="/node_modules/angular-material/angular-material.min.js"> </script>
+
+
+
   <script src="/routes/angularRouter.js"></script>
+
 
 
   <base href="/" /> <!-- add the deep rendering path for use of angular and express routing -->
@@ -28,14 +39,23 @@
     <a class="navbar-brand"  ng-click="" >Barrie Business Listing</a>
   </div>
 
-<ul class="nav navbar-nav">
-  <li><a href="/">Home</a></li>
-  <li><a href="#">View Businesses</a></li>
+  <ul class="nav navbar-nav">
+    <li><a href="/">Home</a></li>
 
 
-  <li><a href="/login">Login</a> </li>
+  <% if (!user) { %>
 
-</ul>
+    <li><a href="/login">Login</a> </li>
+    <li><a href="/register">register</a> </li>
+  </ul>
+  <% } else { %>
+  </ul>
+  <ul class="nav navbar-nav pull-right"> <!-- keep everything aligned on the same area -->
+    <li>
+      <% include partial-user-AccountDropDown.ejs %>
+    </li>
+ <%} %>
+
 </nav>
 
 

@@ -28,6 +28,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var login = require('./routes/login');
 var register = require ('./routes/register');
+var logout = require ('./routes/logout');
 
 var app = express();
 
@@ -74,6 +75,7 @@ app.use('/index', index);
 app.use('/users', users);
 app.use('/login', login);
 app.use('/register', register);
+app.use('/logout', logout);
 
 
 
@@ -95,6 +97,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+
 
 
 
