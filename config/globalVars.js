@@ -16,9 +16,9 @@ module.exports = {
 
     ids: { //github only at this point.
         gitHub: {
-            ClientID: '',
-            clientSecret: '',
-            callbackUrl: 'http//localhost:3000/facebook/callback' //change later,
+            ClientID: '312814f90da0193828d7',
+            clientSecret: '4eea08630a40bcde48db83184c51819780a70623',
+            callbackUrl: 'https://assigntworichweb.herokuapp.com/github/callback' //change later,
         }
 
     },
