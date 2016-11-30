@@ -99,9 +99,9 @@ passport.use(new facebookStrategy({
 var githubStrategy = require('passport-github').Strategy;
 // just copied, I understand the code, but I just had way to many syntax errors on this piece of shit.
 passport.use(new githubStrategy({
-      clientID: config.ids.github.clientID,
-      clientSecret: config.ids.github.clientSecret,
-      callbackURL: config.ids.github.callbackURL
+      clientID: config.ids.gitHub.ClientID,
+      clientSecret: config.ids.gitHub.clientSecret,
+      callbackURL: config.ids.gitHub.callbackURL
     }, function(accessToken, refreshToken, profile, cb) {
       // what to do when gh returns a profile
       // check if this gh profile is already in our accounts collection
