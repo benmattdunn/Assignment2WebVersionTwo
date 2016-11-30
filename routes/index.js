@@ -42,7 +42,16 @@ router.get('/',  function(req, res, next) {
   });
 });
 
+//git hub login put here because I don't want to setup another page this late at night. 
+router.get('/github', passport.authenticate('github'), function(req, res, next) {});
 
+/* GET /github/callback */
+router.get('/github/callback', passport.authenticate('github', {
+  failureRedirect: '/login',
+  failureMessage: 'Invalid Login'
+}), function(req, res, next){
+  res.redirect('/index');
+});
 
 
 
