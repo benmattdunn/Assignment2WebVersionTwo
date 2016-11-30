@@ -58,8 +58,8 @@ router.get('/delete/:_id',isLoggedIn, function(req, res, next) {
     });
 });
 
-
-router.get('/:_id', isLoggedIn, function(req, res, next) {
+//single reference, and edit by..
+router.get('/edit/:_id', isLoggedIn, function(req, res, next) {
     // get the id from the url
     var _id = req.params._id;
     // use Mongoose to get the selected drink document
@@ -72,13 +72,42 @@ router.get('/:_id', isLoggedIn, function(req, res, next) {
             });
         }
         else {
-            res.render('businessEdit', {
+            res.render('editBusiness', {
                 pageName: 'business Editing',
                 business: business,
                 username: req.session.username,
                 user: req.user
-
             });
+        }
+    });
+});
+
+router.post('/edit/:_id', isLoggedIn, function(req, res, next) {
+    // get id from url
+    var _id = req.params._id;
+
+
+    var x = new business({
+        _id: _id,
+        name: req.body.name,
+        businessname: req.body.businessname,
+        businesstags: req.body.businesstags,
+        businessdescription: req.body.businessdescription,
+        businessaddress: req.body.businessaddress //after this point, the information doesn't change, so pass through
+
+    });
+
+    //update method
+    business.update({ _id: _id }, x, function(err) {
+        if (err) {
+            console.log(err);
+            res.render('error', {
+                message: 'business has failed to be edited',
+                error: err
+            });
+        }
+        else {
+            res.redirect('/');
         }
     });
 });

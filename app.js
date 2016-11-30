@@ -93,11 +93,11 @@ passport.use(new facebookStrategy({
         }
       });
     }
-));
+));*/
 
-// configure github login
+
 var githubStrategy = require('passport-github').Strategy;
-
+// just copied, I understand the code, but I just had way to many syntax errors on this piece of shit.
 passport.use(new githubStrategy({
       clientID: config.ids.github.clientID,
       clientSecret: config.ids.github.clientSecret,
@@ -119,7 +119,7 @@ passport.use(new githubStrategy({
             user = new Account({
               oauthID: profile.id,
               username: profile.username,
-              created: Date.now()
+              //created: Date.now()
             });
 
             user.save(function(err) {
@@ -135,7 +135,7 @@ passport.use(new githubStrategy({
       });
     }
 ));
-*/
+
 
 // read / write users between passport and mongodb
 passport.serializeUser(Account.serializeUser());
