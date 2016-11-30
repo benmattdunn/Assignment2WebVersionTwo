@@ -14,6 +14,7 @@ var login = require('./routes/login');
 var register = require('./routes/register');
 var addbusiness = require('./routes/addbussiness');
 var logout = require('./routes/logout');
+var userBusinessess = require('./routes/businessAddEditDelete');
 
 
 
@@ -161,6 +162,7 @@ app.use('/addbusiness', addbusiness);
 app.use('/userpage', userpage);
 app.use('/logout', logout);
 app.use('/userCrudDisplay',userCrudDisplay);
+app.use('/businessAddEditDelete', userBusinessess);
 
 
 

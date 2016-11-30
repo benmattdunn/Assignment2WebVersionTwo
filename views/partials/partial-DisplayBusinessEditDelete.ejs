@@ -6,4 +6,8 @@
     </div>
     <div class="panel-body"><%= business[i].businessdescription %></div>
     Created by: <%= business[i].addbyusername %>
+
+    <a href="businessAddEditDelete/edit/<%= business[i]._id %>" class="btn btn-info" role="button">Edit</a>
+    <a href="businessAddEditDelete/delete/<%= business[i]._id %>" class="btn btn-danger" role="button">Delete</a>
+
 </div>

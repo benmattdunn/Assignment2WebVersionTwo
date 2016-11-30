@@ -1,0 +1,11 @@
+<% include partials/header.ejs%>
+
+<!-- main area for business editing -->
+
+<% for (var i=0; i < business.length; i++) {
+    if(business[i].addedbyuserid===user.user_id) { %>
+
+<% include partials/partial-DisplayBusinessEditDelete.ejs %>
+<% }} %>
+
+<% include partials/footer.ejs %>

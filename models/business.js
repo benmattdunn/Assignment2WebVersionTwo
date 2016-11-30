@@ -36,8 +36,6 @@ var businessSchema = new mongoose.Schema({
 });
 
 
-//apparently needed?
-
 
 // make this public
 module.exports = mongoose.model('Business', businessSchema);

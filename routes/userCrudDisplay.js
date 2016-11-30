@@ -6,7 +6,6 @@ var router = express.Router();
 var Account = require('../models/account');
 
 router.get('/', function(req, res, next) {
-    // use the Drink model to query the db for drink data
     Account.find(function(err, accounts) {
         if (err) {
             console.log(err);
@@ -28,7 +27,6 @@ router.get('/', function(req, res, next) {
 
 //debug, allowing for deleting of user account
 router.get('/delete/:_id', function(req, res, next) {
-    // get the id from the url
     var _id = req.params._id;
 
     // delete the document with this _id
